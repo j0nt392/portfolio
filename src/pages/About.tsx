@@ -1,81 +1,137 @@
 import { motion } from 'framer-motion';
-import { Calendar, MapPin, Briefcase, GraduationCap } from 'lucide-react';
-import { BIO, EXPERIENCES } from '../data/portfolio';
+import { ArrowUpRight } from 'lucide-react';
+import { BIO, EXPERIENCES, SKILLS } from '../data/portfolio';
 
 export const About = () => {
   return (
-    <div className="py-12">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="max-w-4xl mx-auto"
-      >
-        {/* Header */}
-        <div className="mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">About Me</h1>
-          <p className="text-xl text-slate-400 leading-relaxed">
-            {BIO.about}
-          </p>
-        </div>
+    <div className="min-h-screen">
+      {/* Header */}
+      <section className="container-custom pt-24 lg:pt-32 pb-32">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <h1 className="font-display text-4xl sm:text-5xl font-semibold tracking-tight mb-10">
+              About
+            </h1>
+            
+            <div className="space-y-6 text-[var(--color-text-muted)] leading-relaxed text-lg">
+              <p>{BIO.about}</p>
+            </div>
 
-        {/* Info Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-          <div className="bg-slate-900 p-6 rounded-xl border border-slate-800">
-            <h3 className="text-lg font-bold mb-4 flex items-center">
-              <MapPin className="w-5 h-5 text-indigo-500 mr-2" />
-              Location
-            </h3>
-            <p className="text-slate-400">{BIO.location}</p>
-          </div>
-          <div className="bg-slate-900 p-6 rounded-xl border border-slate-800">
-            <h3 className="text-lg font-bold mb-4 flex items-center">
-              <Briefcase className="w-5 h-5 text-indigo-500 mr-2" />
-              Current Role
-            </h3>
-            <p className="text-slate-400">{EXPERIENCES[0].role} at {EXPERIENCES[0].company}</p>
-          </div>
-        </div>
+            <div className="flex gap-8 mt-14">
+              <a
+                href={BIO.social.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm hover-underline"
+              >
+                GitHub
+                <ArrowUpRight className="w-4 h-4" />
+              </a>
+              <a
+                href={BIO.social.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm hover-underline"
+              >
+                LinkedIn
+                <ArrowUpRight className="w-4 h-4" />
+              </a>
+            </div>
+          </motion.div>
 
-        {/* Experience Timeline */}
-        <h2 className="text-3xl font-bold mb-8">Experience & Education</h2>
-        <div className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-800 before:to-transparent">
-          {EXPERIENCES.map((exp, index) => (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="space-y-14 lg:pt-4"
+          >
+            <div>
+              <span className="font-mono text-xs text-[var(--color-text-subtle)] uppercase tracking-widest">
+                Location
+              </span>
+              <p className="mt-3 font-display text-xl">{BIO.location}</p>
+            </div>
+            
+            <div>
+              <span className="font-mono text-xs text-[var(--color-text-subtle)] uppercase tracking-widest">
+                Current
+              </span>
+              <p className="mt-3 font-display text-xl">{EXPERIENCES[0].role}</p>
+              <p className="text-[var(--color-text-muted)] mt-1">{EXPERIENCES[0].company}</p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Skills */}
+      <section className="container-custom py-32 border-t border-[var(--color-border)]">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
+          <span className="font-mono text-xs text-[var(--color-text-subtle)] uppercase tracking-widest">
+            Skills
+          </span>
+          
+          <div className="flex flex-wrap gap-x-10 gap-y-4 mt-10">
+            {SKILLS.map((skill, index) => (
+              <motion.span
+                key={skill}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.05 }}
+                className="text-[var(--color-text-muted)] text-lg"
+              >
+                {skill}
+              </motion.span>
+            ))}
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Experience */}
+      <section className="container-custom py-32 border-t border-[var(--color-border)]">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="mb-14"
+        >
+          <span className="font-mono text-xs text-[var(--color-text-subtle)] uppercase tracking-widest">
+            Experience
+          </span>
+        </motion.div>
+
+        <div className="space-y-16">
+          {EXPERIENCES.map((experience, index) => (
             <motion.div
-              key={exp.id}
-              initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              key={experience.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.2 }}
-              className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active"
+              transition={{ delay: index * 0.1 }}
+              className="grid grid-cols-1 sm:grid-cols-4 gap-6"
             >
-              {/* Icon */}
-              <div className="flex items-center justify-center w-10 h-10 rounded-full border border-slate-800 bg-slate-900 group-hover:border-indigo-500/50 group-hover:bg-indigo-500/10 transition-colors shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
-                {exp.role.includes("Student") || exp.company === "Nackademin" ? (
-                  <GraduationCap className="w-5 h-5 text-indigo-400" />
-                ) : (
-                  <Briefcase className="w-5 h-5 text-emerald-400" />
-                )}
+              <div className="sm:col-span-1">
+                <span className="font-mono text-xs text-[var(--color-text-subtle)]">
+                  {experience.period}
+                </span>
               </div>
-              
-              {/* Content Card */}
-              <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-slate-900 p-6 rounded-xl border border-slate-800 hover:border-indigo-500/30 transition-colors">
-                <div className="flex flex-col sm:flex-row justify-between mb-2">
-                  <h3 className="font-bold text-white text-lg">{exp.role}</h3>
-                  <span className="text-indigo-400 text-sm font-mono flex items-center">
-                    <Calendar className="w-3 h-3 mr-1" /> {exp.period}
-                  </span>
-                </div>
-                <div className="text-slate-500 font-medium mb-3">{exp.company}</div>
-                <p className="text-slate-400 text-sm leading-relaxed">
-                  {exp.description}
-                </p>
+              <div className="sm:col-span-3">
+                <h3 className="font-display text-xl font-medium">{experience.role}</h3>
+                <p className="text-[var(--color-text-muted)] mt-1 mb-3">{experience.company}</p>
+                <p className="text-[var(--color-text-muted)]">{experience.description}</p>
               </div>
             </motion.div>
           ))}
         </div>
-      </motion.div>
+      </section>
     </div>
   );
 };
-

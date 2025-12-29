@@ -1,26 +1,40 @@
-import { Github, Linkedin, Mail } from 'lucide-react';
 import { BIO } from '../../data/portfolio';
 
 export const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="bg-slate-950 border-t border-slate-900 py-12 mt-auto">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="text-center md:text-left">
-            <p className="text-slate-400 text-sm">
-              © {new Date().getFullYear()} {BIO.name}. All rights reserved.
+    <footer className="border-t border-[var(--color-border)]">
+      <div className="container-custom py-12">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+          <div>
+            <p className="text-sm text-[var(--color-text-muted)]">
+              © {currentYear} {BIO.name}
             </p>
           </div>
           
-          <div className="flex space-x-6">
-            <a href={BIO.social.github} target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-indigo-500 transition-colors">
-              <Github className="w-5 h-5" />
+          <div className="flex items-center gap-8">
+            <a 
+              href={BIO.social.github} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors"
+            >
+              GitHub
             </a>
-            <a href={BIO.social.linkedin} target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-indigo-500 transition-colors">
-              <Linkedin className="w-5 h-5" />
+            <a 
+              href={BIO.social.linkedin} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors"
+            >
+              LinkedIn
             </a>
-            <a href={BIO.social.email} className="text-slate-500 hover:text-indigo-500 transition-colors">
-              <Mail className="w-5 h-5" />
+            <a 
+              href={BIO.social.email}
+              className="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors"
+            >
+              Email
             </a>
           </div>
         </div>

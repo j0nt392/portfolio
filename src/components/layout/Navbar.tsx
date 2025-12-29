@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Github, Linkedin, Code2 } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BIO } from '../../data/portfolio';
 
@@ -11,92 +11,117 @@ export const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location.pathname]);
+
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Projects', path: '/projects' },
+    { name: 'Work', path: '/projects' },
     { name: 'About', path: '/about' },
   ];
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-slate-950/80 backdrop-blur-md border-b border-white/10' : 'bg-transparent'}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center space-x-2 text-white font-bold text-xl">
-            <Code2 className="w-8 h-8 text-indigo-500" />
-            <span>{BIO.name}</span>
-          </Link>
+    <>
+      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        scrolled 
+          ? 'bg-[var(--color-bg)]/90 backdrop-blur-sm' 
+          : 'bg-transparent'
+      }`}>
+        <div className="container-custom">
+          <div className="flex items-center justify-between h-20">
+            <Link 
+              to="/" 
+              className="font-display font-medium text-lg tracking-tight"
+            >
+              {BIO.name}
+            </Link>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={`text-sm font-medium transition-colors hover:text-indigo-400 ${location.pathname === link.path ? 'text-indigo-500' : 'text-slate-300'}`}
+            {/* Desktop Menu */}
+            <div className="hidden md:flex items-center gap-12">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={`text-sm transition-colors ${
+                    location.pathname === link.path || (link.path !== '/' && location.pathname.startsWith(link.path))
+                      ? 'text-[var(--color-text)]' 
+                      : 'text-[var(--color-text-muted)] hover:text-[var(--color-text)]'
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              ))}
+              
+              <a
+                href="mailto:hello@example.com"
+                className="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors"
               >
-                {link.name}
-              </Link>
-            ))}
-            <div className="flex items-center space-x-4 pl-4 border-l border-slate-800">
-              <a href={BIO.social.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors">
-                <Github className="w-5 h-5" />
-              </a>
-              <a href={BIO.social.linkedin} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors">
-                <Linkedin className="w-5 h-5" />
+                Contact
               </a>
             </div>
-          </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
+            {/* Mobile Menu Button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-slate-300 hover:text-white p-2"
+              className="md:hidden p-2 -mr-2"
+              aria-label="Toggle menu"
             >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
-      </div>
+      </nav>
 
       {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-slate-950 border-b border-slate-800"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-40 bg-[var(--color-bg)] md:hidden"
           >
-            <div className="px-4 pt-2 pb-4 space-y-1">
-              {navLinks.map((link) => (
+            <div className="flex flex-col justify-center items-center h-full">
+              <nav className="flex flex-col items-center gap-8">
                 <Link
-                  key={link.path}
-                  to={link.path}
-                  onClick={() => setIsOpen(false)}
-                  className={`block px-3 py-2 rounded-md text-base font-medium ${location.pathname === link.path ? 'text-indigo-500 bg-slate-900' : 'text-slate-300 hover:text-white hover:bg-slate-900'}`}
+                  to="/"
+                  className={`font-display text-2xl ${
+                    location.pathname === '/' ? 'text-[var(--color-text)]' : 'text-[var(--color-text-muted)]'
+                  }`}
                 >
-                  {link.name}
+                  Home
                 </Link>
-              ))}
-              <div className="flex items-center space-x-4 px-3 py-4 border-t border-slate-800 mt-2">
-                <a href={BIO.social.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white">
-                  <Github className="w-6 h-6" />
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    className={`font-display text-2xl ${
+                      location.pathname === link.path || (link.path !== '/' && location.pathname.startsWith(link.path))
+                        ? 'text-[var(--color-text)]' 
+                        : 'text-[var(--color-text-muted)]'
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+                <a
+                  href="mailto:hello@example.com"
+                  className="font-display text-2xl text-[var(--color-text-muted)]"
+                >
+                  Contact
                 </a>
-                <a href={BIO.social.linkedin} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white">
-                  <Linkedin className="w-6 h-6" />
-                </a>
-              </div>
+              </nav>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </>
   );
 };
